@@ -1,5 +1,6 @@
 #include "..\cppunitlite\TestHarness.h"
 #include "utShapes.h"
+#include "Document.h"
 #include <stdio.h>
 #include <string.h>
 #include <string>
@@ -25,6 +26,7 @@ int main()
         stringstream ss(cmd);
         string sub_str;
         vector<string> cmdBuffer;
+        map<string, Media*>::iterator iter;
 
         while(getline(ss, sub_str, ' '))
             cmdBuffer.push_back(sub_str);
@@ -37,10 +39,12 @@ int main()
             Shape * s = newShape(temp);
             if(temp.find("Circle(") == 0){
                 cout << "in Circle" <<endl;
+                s->setName(cmdBuffer[1]);
                 mapMedia.insert(pair<string, Media*>(cmdBuffer[1], new ShapeMedia(s)));
             }
             else if(temp.find("Rectangle(") == 0){
                 cout << "in Rect" <<endl;
+                s->setName(cmdBuffer[1]);
                 mapMedia.insert(pair<string, Media*>(cmdBuffer[1], new ShapeMedia(s)));
             }
             else{
@@ -59,6 +63,7 @@ int main()
                     cout << iter -> first << endl;
                     cm->add(iter -> second);
                 }
+                cm ->setName(cmdBuffer[1]);
                 mapMedia.insert(pair<string, Media*>(cmdBuffer[1], cm));
                 //cout << cm.
             }
@@ -88,24 +93,86 @@ int main()
             m -> accept(&pv);
             cout << pv.getPerimeter() << endl;
         }
+
         else if (cmdBuffer[0] == "delete"){
-            map<string, Media*>::iterator iter;
-            if(cmdBuffer[2] == "from"){
+            if (cmdBuffer.size() == 2){
+                iter = mapMedia.find(cmdBuffer[1]);
+                for(map<string, Media*>::iterator it = mapMedia.begin(); it != mapMedia.end(); it++){
+                    it -> second -> removeMedia(iter -> second);
+                }
+                mapMedia.erase(iter);
+            }
+            else if(cmdBuffer.size() == 4){
                 iter = mapMedia.find(cmdBuffer[3]);
                 Media *cm = iter -> second;
 
                 iter = mapMedia.find(cmdBuffer[1]);
                 cm -> removeMedia(iter -> second);
             }
-            else{
-                iter = mapMedia.find(cmdBuffer[1]);
-
-            }
         }
         else if (cmd.find("show") != string::npos){
             for(map<string, Media*>::iterator iter = mapMedia.begin(); iter != mapMedia.end(); iter++){
                 cout << iter -> first << endl;
             }
+        }
+        else if (cmd.find("add") != string::npos){
+            iter = mapMedia.find(cmdBuffer[3]);
+            Media *cm = iter -> second;
+
+            iter = mapMedia.find(cmdBuffer[1]);
+            cm ->add(iter -> second);
+            DescriptionVisitor dv;
+            cm ->accept(&dv);
+            NameVisitor nv;
+            cm ->accept(&nv);
+            cout << cmdBuffer[3] << " = " << nv.getName() << " = " << dv.getDescription() <<endl;
+        }
+        else if (cmd.find("save") != string::npos){
+            iter = mapMedia.find(cmdBuffer[1]);
+            vector<string> output;
+            Media *cm =iter -> second;
+
+            DescriptionVisitor dv;
+            cm->accept(&dv);
+            NameVisitor nv;
+            cm->accept(&nv);
+            output.push_back(dv.getDescription());
+            output.push_back(nv.getName());
+
+            //cout << cmdBuffer[3].substr(1,cmdBuffer[3].size() - 2) << endl;
+            MyDocument md;
+            md.writeDocument(cmdBuffer[3].substr(1,cmdBuffer[3].size() - 2),output);
+            cout << cmdBuffer[3] << "save to " << cmdBuffer[3].substr(1,cmdBuffer[3].size() - 2);
+        }
+        else if (cmd.find("load") != string::npos){
+            MyDocument document;
+            MediaDirctror md;
+            string temp = document.openDocument(cmdBuffer[1].substr(1,cmdBuffer[1].size() - 2));
+
+            stringstream temps(temp);
+            string sub_str;
+            vector<string> fileBuffer;
+            cout << "loading " << cmdBuffer[1].substr(1,cmdBuffer[1].size() - 2) << "..." << endl;
+
+            while(getline(temps, sub_str, '\n'))
+                fileBuffer.push_back(sub_str);
+
+            md.concrete(fileBuffer[0]);
+            stack<MediaBuilder *> mbs;
+
+            mbs = md.getStack();
+            ComboMedia *cm = mbs.top() ->getComboMedia();
+            vector<string> nameVector;
+            nameVector = md.getNameVector(fileBuffer[1]);
+
+            cm -> setMedia(&mapMedia, &nameVector);
+
+            DescriptionVisitor dv;
+            cm->accept(&dv);
+            NameVisitor nv;
+            cm->accept(&nv);
+
+            cout << nameVector[0] << " = " << nv.getName() << " = " << dv.getDescription() << endl;
         }
         else{
             cout << "error" << endl;

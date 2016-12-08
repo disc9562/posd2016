@@ -33,6 +33,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="Document.h" />
 		<Unit filename="ShapeMedia.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>

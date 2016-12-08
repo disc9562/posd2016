@@ -11,6 +11,8 @@ class Shape
 public:
     virtual double area() const = 0;
     virtual double perimeter() const = 0;
+    virtual void setName(std::string _name) = 0;
+    virtual std::string getName() = 0;
     virtual std::string description() const {return std::string("");}
 };
 
@@ -31,9 +33,15 @@ public:
         ss << "r(" << x << " " << y << " " << l << " " << w << ") ";
         return ss.str();
     }
-
+    void setName(std::string _name){
+        name = _name;
+    }
+    std::string getName(){
+        return name;
+    }
 private:
     double x,y,l,w;
+    std::string name;
 };
 
 class Circle : public Shape
@@ -51,8 +59,15 @@ public:
         ss << "c(" << cx << " " << cy << " " << r << ") ";
         return ss.str();
     }
+    void setName(std::string _name){
+        name = _name;
+    }
+    std::string getName(){
+        return name;
+    }
 private:
     double cx,cy,r;
+    std::string name;
 };
 
 class Triangle : public Shape{
@@ -96,8 +111,15 @@ public:
         ss << "t(" << x1 << " " << y1 << " " << x2 << " " << y2 << " " << x3 << " " << y3 << ") ";
         return ss.str();
     }
+    void setName(std::string _name){
+        name = _name;
+    }
+    std::string getName(){
+        return name;
+    }
 private:
     double x1,y1,x2,y2,x3,y3,side_1,side_2,side_3;
+    std::string name;
 };
 
 double sumOfArea(const std::vector<Shape *> & shapes) {

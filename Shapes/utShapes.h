@@ -144,7 +144,7 @@ TEST (PerimeterVisitor, MediaVisitor){
     DOUBLES_EQUAL(2*sqrt(3) + 4,t2.perimeter(),epsilon);
 }
 
-TEST (ShapeMediaBuilder, ShapeMediaBuilder){
+/*TEST (ShapeMediaBuilder, ShapeMediaBuilder){
     ShapeMediaBuilder sb;
     Circle cir(0,0,5);
     sb.buildShapeMedia(&cir);
@@ -189,8 +189,8 @@ TEST(TextMedia, TextMedia){
     DOUBLES_EQUAL(((TextMedia*)tmb.getMedia())->getRectangle().area() , 8, epsilon);
     CHECK(((TextMedia*)tmb.getMedia())->getText() == "hello");
 }
-
-TEST(RemoveMedia,RemoveMedia){
+*/
+/*TEST(RemoveMedia,RemoveMedia){
     ComboMediaBuilder cb;
     cb.buildComboMedia();
     Rectangle r1(10,0,15,5);
@@ -215,5 +215,5 @@ TEST(RemoveMedia,RemoveMedia){
     cb2.getMedia()->accept(&dv);
     //std::cout << dv.getDescription() << std::endl;
     CHECK(std::string("combo(combo(combo(r(10 0 15 5) c(12 5 2) ))t(0 20 16 32 25 20) )") == dv.getDescription());
-}
+}*/
 #endif // UTSHAPES_H_INCLUDED

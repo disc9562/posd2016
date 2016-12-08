@@ -121,9 +121,10 @@
 	<vector>
 	<string>
 
-1480927123 source:c:\users\jay\desktop\posd_hw4\shapes\main.cpp
+1481103980 source:c:\users\jay\desktop\posd_hw4\shapes\main.cpp
 	"..\cppunitlite\TestHarness.h"
 	"utShapes.h"
+	"Document.h"
 	<stdio.h>
 	<string.h>
 	<string>
@@ -150,7 +151,7 @@
 
 1476527098 c:\users\jay\desktop\posd_hw4\cppunitlite\testregistry.h
 
-1480921809 c:\users\jay\desktop\posd_hw4\shapes\utshapes.h
+1481099917 c:\users\jay\desktop\posd_hw4\shapes\utshapes.h
 	"..\cppunitlite\TestHarness.h"
 	"Shapes.h"
 	"ShapeMedia.h"
@@ -158,16 +159,25 @@
 	<math.h>
 	<iostream>
 
-1477670198 c:\users\jay\desktop\posd_hw4\shapes\shapes.h
+1481079445 c:\users\jay\desktop\posd_hw4\shapes\shapes.h
 	<vector>
 	<string>
 	<sstream>
 
-1480923201 c:\users\jay\desktop\posd_hw4\shapes\shapemedia.h
+1481104036 c:\users\jay\desktop\posd_hw4\shapes\shapemedia.h
 	"Shapes.h"
 	<vector>
 	<string>
 	<stdio.h>
 	<string.h>
 	<iostream>
+	<stack>
+	<stdlib.h>
+	<map>
+
+1481100274 c:\users\jay\desktop\posd_hw4\shapes\document.h
+	<iostream>
+	<fstream>
+	<string>
+	<vector>
 
